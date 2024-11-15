@@ -103,3 +103,12 @@ const port = 4000;
 app.listen(port, () => {
   console.log(`App running on port ${port}...`);
 });
+
+// Checking
+// app.post('/api/v1/tours', (req, res) => {
+//   res.status(201).json({
+//     status: 'success',
+//     data: {toures}
+//   })
+
+// })

@@ -5,6 +5,16 @@ const app = express();
 
 app.use(express.json());
 
+app.use((req, res, next) => {
+  console.log('Hello from the middleware😄🙂🙂');
+  next();
+});
+
+app.use((req, res, next) => {
+  req.requestTime = new Date().toISOString();
+  next();
+});
+
 // app.get('/', (req, res) => {
 //   res
 //     .status(400)
@@ -40,7 +50,9 @@ const getTour = (req, res) => {
 };
 
 const getAllTours = (req, res) => {
+  console.log(req.requestTime);
   res.status(200).json({
+    requestTime: req.requestTime,
     success: 'success',
     data: {
       tours,

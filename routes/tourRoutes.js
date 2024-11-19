@@ -80,8 +80,7 @@ const updateTour = (req, res) => {
   });
 };
 
-router.route('').get(getAllTours).post(createTour);
-
 router.route('/:id').get(getTour).patch(updateTour).delete(deleteTour);
+router.route('/').get(getAllTours).post(createTour);
 
 module.exports = router;

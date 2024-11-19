@@ -35,3 +35,5 @@ const deleteUser = (req, res) => {
 router.route('/:id').get(getUser).delete(deleteUser).patch(updateUser);
 
 router.route('/').get(getAllUsers).post(createUser);
+
+module.exports = router;

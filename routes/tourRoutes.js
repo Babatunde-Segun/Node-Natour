@@ -43,6 +43,7 @@ const getTour = (req, res) => {
 
 const getAllTours = (req, res) => {
   console.log(req.requestTime);
+  // console.log(res);
   res.status(200).json({
     requestTime: req.requestTime,
     success: 'success',

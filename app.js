@@ -21,8 +21,8 @@ app.use((req, res, next) => {
 });
 
 // ROUTE
-app.use('/api/vi/users', userRoutes);
-app.use('/api/vi/tours', tourRoutes);
+app.use('/api/v1/tours', tourRoutes);
+app.use('/api/v1/users', userRoutes);
 
 // SERVER
 const port = 4000;

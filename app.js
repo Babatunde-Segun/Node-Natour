@@ -24,17 +24,4 @@ app.use((req, res, next) => {
 app.use('/api/v1/tours', tourRoutes);
 app.use('/api/v1/users', userRoutes);
 
-// SERVER
-const port = 4000;
-app.listen(port, () => {
-  console.log(`App running on port ${port}...`);
-});
-
-// Checking
-// app.post('/api/v1/tours', (req, res) => {
-//   res.status(201).json({
-//     status: 'success',
-//     data: {toures}
-//   })
-
-// })
+module.exports = app;

@@ -13,6 +13,6 @@ router
 router
   .route('/')
   .get(tourController.getAllTours)
-  .post(tourController.createTour);
+  .post([tourController.checkBody, tourController.createTour]);
 
 module.exports = router;

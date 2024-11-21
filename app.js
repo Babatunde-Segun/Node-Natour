@@ -1,6 +1,8 @@
 const express = require('express');
 const morgan = require('morgan');
 
+// console.log('this is morgan', morgan);
+
 const tourRoutes = require('./../4-NATOURS/routes/tourRoutes');
 const userRoutes = require('./../4-NATOURS/routes/userRoutes');
 

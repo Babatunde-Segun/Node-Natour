@@ -13,14 +13,21 @@ exports.deleteTour = (req, res) => {
   });
 };
 
-exports.getTour = (req, res) => {
-  const id = req.params.id * 1;
-  // const tour = tours.find((el) => el.id === id);
-
-  // res.status(200).json({
-  //   status: 'success',
-  //   data: { tour },
-  // });
+exports.getTour = async (req, res) => {
+  try {
+    const id = req.params.id;
+    console.log(id);
+    const tour = await Tour.findById(id);
+    res.status(200).json({
+      status: 'success',
+      data: tour,
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: 'Something went wrong',
+      message: 'Bad connection',
+    });
+  }
 };
 
 exports.getAllTours = async (req, res) => {

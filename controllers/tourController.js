@@ -97,6 +97,7 @@ exports.createTour = async (req, res) => {
   }
 };
 
+// UPDATE TOUR NEVER DAY WORK
 exports.updateTour = async (req, res) => {
   try {
     const tour = await Tour.findByIdAndUpdate(req.params.id, req.body, {

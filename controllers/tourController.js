@@ -76,16 +76,20 @@ exports.getAllTours = async (req, res) => {
       query = query.select('-__v');
     }
 
+    // 4) Pagination
+    const page = req.query.page * 1 || 1;
+    const limit = req.query.limit * 1 || 100;
+    const skip = (page - 1) * limit;
+    // page=2&limit=10 1-10, page 1, 11 = 20, page 2,
+    query = query.skip(skip).limit(limit);
+
+    if (req.query.page) {
+      const numTours = await Tour.countDocuments();
+      if (skip >= numTours) throw new Error('This page does not exist');
+    }
+
     const tours = await query;
-    // .where('duration')
-    // .lte(4.5)
-    // .where('difficulty')
-    // .equals('easy');
-    // const query = await Tour.find({
-    //   duration: 5,
-    //   difficulty: 'easy',
-    //   ratingsAverage: 4.4,
-    // });
+
     res.status(200).json({
       requestTime: req.requestTime,
       status: 'success',
@@ -98,7 +102,7 @@ exports.getAllTours = async (req, res) => {
   } catch (error) {
     res.status(404).json({
       status: 'Something went wrong',
-      message: 'Try again',
+      message: error,
     });
   }
 };

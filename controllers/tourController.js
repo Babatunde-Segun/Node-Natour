@@ -49,15 +49,24 @@ exports.getAllTours = async (req, res) => {
     // 2) Advanced filtering
     let queryStr = JSON.stringify(queryObj);
     queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, (match) => `$${match}`);
-    console.log(JSON.parse(queryStr));
 
     // {difficulty: 'easy', duration: {$gte: 5}}
     // gte, gt, lte, lt
 
     // execute query
     // console.log(req.query, 'this is queryObj', queryObj);
+    // na to continue remain
 
-    const query = Tour.find(JSON.parse(queryStr));
+    let query = Tour.find(JSON.parse(queryStr));
+
+    // 2) SORTING
+    if (req.query.sort) {
+      const sortBy = req.query.sort.split(',').join(' ');
+      query = query.sort(sortBy);
+      // so
+    } else {
+      query = query.sort('-createdAt');
+    }
 
     const tours = await query;
     // .where('duration')

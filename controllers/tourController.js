@@ -1,6 +1,13 @@
 const fs = require('fs');
 const Tour = require('./../models/tourModel');
 
+exports.aliasTopTours = (req, res, next) => {
+  req.query.limit = '5';
+  req.query.sort = '-ratingsAverage,price';
+  req.query.fields = 'name,price,ratingsAverage,summary,difficulty';
+  next();
+};
+
 // const tours = JSON.parse(
 //   fs.readFileSync(`${__dirname}/../dev-data/data/tours-simple.json`),
 // );
@@ -37,6 +44,34 @@ exports.getTour = async (req, res) => {
     });
   }
 };
+
+class APIFeature {
+  constructor(query, queryString) {
+    this.query = query;
+    this.queryString = queryString;
+  }
+
+  filter() {
+    // 1) Filtering
+    const queryObj = { ...this.queryString };
+    const excludedFields = ['page', 'sort', 'limit', 'fields'];
+    excludedFields.forEach((el) => delete queryObj[el]);
+
+    // 1B) Advanced filtering
+    let queryStr = JSON.stringify(queryObj);
+    queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, (match) => `$${match}`);
+
+    // {difficulty: 'easy', duration: {$gte: 5}}
+    // gte, gt, lte, lt
+
+    // execute query
+    // console.log(req.query, 'this is queryObj', queryObj);
+    // na to continue remain
+
+    this.query.find(JSON.parse(queryStr));
+    //  let query = Tour.find(JSON.parse(queryStr));
+  }
+}
 
 exports.getAllTours = async (req, res) => {
   try {

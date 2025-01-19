@@ -1,50 +1,6 @@
 const fs = require('fs');
 const Tour = require('./../models/tourModel');
 
-exports.aliasTopTours = (req, res, next) => {
-  req.query.limit = '5';
-  req.query.sort = '-ratingsAverage,price';
-  req.query.fields = 'name,price,ratingsAverage,summary,difficulty';
-  next();
-};
-
-// const tours = JSON.parse(
-//   fs.readFileSync(`${__dirname}/../dev-data/data/tours-simple.json`),
-// );
-
-// ROUTE HANDLERS
-exports.deleteTour = async (req, res) => {
-  try {
-    await Tour.findByIdAndDelete(req.params.id);
-    res.status(204).json({
-      status: 'success',
-      data: null,
-    });
-  } catch (error) {
-    res.status(400).json({
-      status: 'fail',
-      message: 'Something went wrong',
-    });
-  }
-};
-
-exports.getTour = async (req, res) => {
-  try {
-    const id = req.params.id;
-    console.log(id);
-    const tour = await Tour.findById(id);
-    res.status(200).json({
-      status: 'success',
-      data: tour,
-    });
-  } catch (error) {
-    res.status(400).json({
-      status: 'Something went wrong',
-      message: 'Bad connection',
-    });
-  }
-};
-
 class APIFeature {
   constructor(query, queryString) {
     this.query = query;
@@ -64,14 +20,12 @@ class APIFeature {
 
     this.query = this.query.find(JSON.parse(queryStr));
 
-    console.log(this.query);
-
     return this;
   }
 
   sort() {
     if (this.queryString.sort) {
-      const sortBy = this.query.sort.split(',').join(' ');
+      const sortBy = this.queryString.sort.split(',').join(' ');
       this.query = this.query.sort(sortBy);
       // so
     } else {
@@ -91,8 +45,8 @@ class APIFeature {
   }
 
   paginate() {
-    const page = this.query.page * 1 || 1;
-    const limit = this.query.limit * 1 || 100;
+    const page = this.queryString.page * 1 || 1;
+    const limit = this.queryString.limit * 1 || 100;
     const skip = (page - 1) * limit;
 
     this.query = this.query.skip(skip).limit(limit);
@@ -165,6 +119,50 @@ exports.getAllTours = async (req, res) => {
     res.status(404).json({
       status: 'Something went wrong',
       message: error,
+    });
+  }
+};
+
+exports.aliasTopTours = (req, res, next) => {
+  req.query.limit = '5';
+  req.query.sort = '-ratingsAverage,price';
+  req.query.fields = 'name,price,ratingsAverage,summary,difficulty';
+  next();
+};
+
+// const tours = JSON.parse(
+//   fs.readFileSync(`${__dirname}/../dev-data/data/tours-simple.json`),
+// );
+
+// ROUTE HANDLERS
+exports.deleteTour = async (req, res) => {
+  try {
+    await Tour.findByIdAndDelete(req.params.id);
+    res.status(204).json({
+      status: 'success',
+      data: null,
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: 'fail',
+      message: 'Something went wrong',
+    });
+  }
+};
+
+exports.getTour = async (req, res) => {
+  try {
+    const id = req.params.id;
+    console.log(id);
+    const tour = await Tour.findById(id);
+    res.status(200).json({
+      status: 'success',
+      data: tour,
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: 'Something went wrong',
+      message: 'Bad connection',
     });
   }
 };

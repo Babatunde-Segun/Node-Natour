@@ -100,6 +100,8 @@ exports.getAllTours = async (req, res) => {
 
     // Resuming work tommo
 
+    // once i finish this, i go continue
+
     // EXECUTE QUERY
     const features = new APIFeature(Tour.find(), req.query)
       .filter()

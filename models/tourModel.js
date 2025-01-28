@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const slugify = require('slugify');
 // const dotenv = require('dotenv');
+console.log(slugify);
 dotenv.config({ path: './config.env' });
 
 const DB = process.env.DATABASE.replace(
@@ -20,11 +21,18 @@ const tourSchema = new mongoose.Schema(
       unique: true,
       trim: true,
       required: [true, 'A tour must have a name'],
+      maxLength: [40, 'A tour name must have equal or less than 40 character '],
+      minLength: [
+        10,
+        'A tour name must have equal or greater than 10 character ',
+      ],
     },
     slug: String,
     ratingsAverage: {
       type: Number,
       default: 4.5,
+      min: [1, 'Rating must be above 1.0'],
+      max: [5, 'Rating must be below 5.0'],
     },
     ratingsQuantity: {
       type: Number,
@@ -46,6 +54,10 @@ const tourSchema = new mongoose.Schema(
     difficulty: {
       type: String,
       required: [true, 'A tour must have a difficulty'],
+      enum: {
+        values: ['easy', 'medium', 'difficult'],
+        message: 'Difficulty is either: easy, medium, difficult',
+      },
     },
     summary: {
       type: String,

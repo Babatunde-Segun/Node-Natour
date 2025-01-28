@@ -35,9 +35,10 @@ class APIFeature {
   }
 
   limitFields() {
-    if (this.query.fields) {
-      const fields = this.query.fields.split(',').join(' ');
+    if (this.queryString.fields) {
+      const fields = this.queryString.fields.split(',').join(' ');
       this.query = this.query.select(fields);
+      // console.log(this.queryString);
     } else {
       this.query = this.query.select('-__v');
     }
@@ -199,7 +200,7 @@ exports.updateTour = async (req, res) => {
       new: true,
       runValidators: true,
     });
-    console.log(tour);
+    // console.log('this is tour from updateTour', );
     res.status(200).json({
       status: 'success',
       data: tour,

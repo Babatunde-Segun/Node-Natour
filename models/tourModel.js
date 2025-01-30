@@ -3,7 +3,7 @@ const dotenv = require('dotenv');
 const slugify = require('slugify');
 const validator = require('validator');
 // const dotenv = require('dotenv');
-console.log(slugify);
+// console.log(slugify);
 dotenv.config({ path: './config.env' });
 
 const DB = process.env.DATABASE.replace(

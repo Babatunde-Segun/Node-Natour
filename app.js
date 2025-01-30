@@ -17,11 +17,6 @@ app.use(express.static(`${__dirname}/public`));
 app.use(morgan('dev'));
 
 app.use((req, res, next) => {
-  console.log('Hello from the middleware😄🙂🙂');
-  next();
-});
-
-app.use((req, res, next) => {
   req.requestTime = new Date().toISOString();
   next();
 });
@@ -29,5 +24,13 @@ app.use((req, res, next) => {
 // ROUTE
 app.use('/api/v1/tours', tourRoutes);
 app.use('/api/v1/users', userRoutes);
+
+// Handle error for undefined route
+app.all('*', (req, res, next) => {
+  res.status(404).json({
+    status: 'fail',
+    message: `Can't find ${req.originalUrl} on this server`,
+  });
+});
 
 module.exports = app;

@@ -122,7 +122,7 @@ exports.getAllTours = async (req, res) => {
     });
   } catch (error) {
     res.status(404).json({
-      status: 'Something went wrong',
+      status: 'fail',
       message: error,
     });
   }
@@ -166,8 +166,8 @@ exports.getTour = async (req, res) => {
     });
   } catch (error) {
     res.status(400).json({
-      status: 'Something went wrong',
-      message: 'Bad connection',
+      status: 'fail',
+      message: error,
     });
   }
 };

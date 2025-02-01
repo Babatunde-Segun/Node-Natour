@@ -99,10 +99,6 @@ exports.getAllTours = async (req, res) => {
     //   if (skip >= numTours) throw new Error('This page does not exist');
     // }
 
-    // Resuming work tommo
-
-    // once i finish this, i go continue
-
     // EXECUTE QUERY
     const features = new APIFeature(Tour.find(), req.query)
       .filter()

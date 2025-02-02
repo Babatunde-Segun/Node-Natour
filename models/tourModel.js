@@ -2,8 +2,6 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const slugify = require('slugify');
 const validator = require('validator');
-// const dotenv = require('dotenv');
-// console.log(slugify);
 dotenv.config({ path: './config.env' });
 
 const DB = process.env.DATABASE.replace(
@@ -104,7 +102,7 @@ tourSchema.virtual('durationWeeks').get(function () {
   return this.duration / 7;
 });
 
-// DOCUMENT MIDDLEWARE: runs before .save() and .create() work only on both
+// DOCUMENT MIDDLEWARE: runs before .save() and .create() work only on 
 tourSchema.pre('save', function (next) {
   this.slug = slugify(this.name, { lower: true });
   next();

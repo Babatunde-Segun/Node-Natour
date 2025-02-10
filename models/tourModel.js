@@ -1,17 +1,6 @@
-const mongoose = require('mongoose');
-const dotenv = require('dotenv');
 const slugify = require('slugify');
 const validator = require('validator');
-dotenv.config({ path: './config.env' });
-
-const DB = process.env.DATABASE.replace(
-  '<PASSWORD>',
-  process.env.DATABASE_PASSWORD,
-);
-
-mongoose.connect(DB).then((con) => {
-  console.log('DB connection successful');
-});
+const mongoose = require('mongoose');
 
 const tourSchema = new mongoose.Schema(
   {

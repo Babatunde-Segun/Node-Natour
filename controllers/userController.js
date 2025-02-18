@@ -4,7 +4,7 @@ const AppError = require('../utils/appError');
 
 exports.getAllUsers = async (req, res) => {
   const user = await User.find();
-
+  // linus
   res.status(200).json({
     requestTime: req.requestTime,
     status: 'success',

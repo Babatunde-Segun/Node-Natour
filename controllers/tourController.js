@@ -105,10 +105,14 @@ exports.deleteTour = catchAsync(async (req, res, next) => {
 
 exports.getTour = catchAsync(async (req, res, next) => {
   const id = req.params.id;
-  const tour = await Tour.findById(id);
+  const tour = await Tour.findById(id).populate({
+    path: 'guides',
+    select: '-__v -passwordChangedAt'
+  });
+  console.log('Tour Found:', tour);
 
   if (!tour) {
-    next(new AppError('No tour found with that ID', 404));
+    return next(new AppError('No tour found with that ID', 404));
   }
 
   res.status(200).json({
@@ -146,7 +150,7 @@ exports.updateTour = catchAsync(async (req, res, next) => {
   });
 
   if (!tour) {
-    next(new AppError('No tour found with that ID', 404));
+    return next(new AppError('No tour found with that ID', 404));
   }
 
   // console.log('this is tour from updateTour', );

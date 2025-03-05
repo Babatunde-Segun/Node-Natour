@@ -91,12 +91,11 @@ exports.aliasTopTours = (req, res, next) => {
 
 // ROUTE HANDLERS
 exports.deleteTour = catchAsync(async (req, res, next) => {
-  console.log('good')
   const tour = await Tour.findByIdAndDelete(req.params.id);
 
   if (!tour) {
-    next(new AppError('No tour found with that ID', 404));
-  };
+    return next(new AppError('No tour found with that ID', 404));
+  }
 
   res.status(204).json({
     status: 'success',

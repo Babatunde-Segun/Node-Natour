@@ -38,7 +38,7 @@ reviewSchema.pre(/^find/, function (next) {
   console.log('reviewSchema');
   this.populate({
     path: 'tour user',
-    select: '-__v -passwordChangedAt -secretTour',
+    select: 'name photo role',
   });
 
   next();

@@ -151,10 +151,13 @@ tourSchema.post(/^find/, function (docs, next) {
 });
 
 tourSchema.pre(/^find/, function (next) {
+  console.log('toureSchema');
   this.populate({
     path: 'guides',
     select: '-__v -passwordChangedAt'
   });
+
+  next()
 })
 
 // AGGREGATION MIDDLEWARE

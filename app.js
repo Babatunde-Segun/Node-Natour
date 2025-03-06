@@ -12,6 +12,7 @@ const hpp = require('hpp')
 
 const tourRoutes = require('./../4-NATOURS/routes/tourRoutes');
 const userRoutes = require('./../4-NATOURS/routes/userRoutes');
+const reviewRoutes = require('./../4-NATOURS/routes/reviewRoutes');
 
 // middleware
 const app = express();
@@ -63,6 +64,7 @@ app.use((req, res, next) => {
 // ROUTE
 app.use('/api/v1/tours', tourRoutes);
 app.use('/api/v1/users', userRoutes);
+app.use('/api/v1/reviews', reviewRoutes)
 
 // Handle error for undefined route
 app.all('*', (req, res, next) => {

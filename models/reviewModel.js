@@ -34,5 +34,15 @@ const reviewSchema = new mongoose.Schema(
   },
 );
 
+reviewSchema.pre(/^find/, function (next) {
+  console.log('reviewSchema');
+  this.populate({
+    path: 'tour user',
+    select: '-__v -passwordChangedAt -secretTour',
+  });
+
+  next();
+});
+
 const Review = mongoose.model('Review', reviewSchema);
 module.exports = Review;

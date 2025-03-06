@@ -110,6 +110,7 @@ const tourSchema = new mongoose.Schema(
         ref : 'User'
       }
     ],
+  
   },
   {
     toJSON: { virtuals: true },
@@ -120,6 +121,13 @@ const tourSchema = new mongoose.Schema(
 tourSchema.virtual('durationWeeks').get(function () {
   return this.duration / 7;
 });
+
+// Virtual Populate
+tourSchema.virtual('reviews', {
+  ref: 'Review',
+  foreignField: 'tour',
+  localField: '_id'
+})
 
 // DOCUMENT MIDDLEWARE: runs before .save() and .create() work only on
 tourSchema.pre('save', function (next) {
@@ -151,7 +159,7 @@ tourSchema.post(/^find/, function (docs, next) {
 });
 
 tourSchema.pre(/^find/, function (next) {
-  console.log('toureSchema');
+
   this.populate({
     path: 'guides',
     select: '-__v -passwordChangedAt'

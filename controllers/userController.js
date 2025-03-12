@@ -12,32 +12,8 @@ const filterObj = (obj, ...allowedFields) => {
   return newObj;
 };
 
-exports.getAllUsers = async (req, res) => {
-  const user = await User.find();
-  // linus
-  res.status(200).json({
-    requestTime: req.requestTime,
-    status: 'success',
-    results: user.length,
-
-    data: {
-      user,
-    },
-  });
-};
-exports.getUser = (req, res) => {
-  res.status(500).json({
-    status: 'Internal Error',
-    message: 'This route is not yet defined',
-  });
-};
-exports.createUser = (req, res) => {
-  res.status(500).json({
-    status: 'Internal Error',
-    message: 'This route is not yet defined',
-  });
-};
-
+exports.getAllUsers = factory.getAll(User);
+exports.getUser =  factory.getOne(User);
 // Don not UPDATE password here
 exports.updateUser = factory.updateOne(User)
 exports.deleteUser = factory.deleteOne(User);

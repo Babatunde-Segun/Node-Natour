@@ -1,7 +1,5 @@
-// // import catchAsync from './../utils/catchAsync';
-// // import AppError from '../utils/appError';
-// import catchAsync from '../utils/catchAsync';
-// import AppError from '../utils/appError';
+// Description: This file contains the handler factory functions which are used to create the CRUD operations for each model.
+// The deleteOne function is a factory function that creates a delete operation for a given model.
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 
@@ -16,5 +14,34 @@ exports.deleteOne = (Model) =>
     res.status(204).json({
       status: 'success',
       data: null,
+    });
+  });
+
+exports.updateOne = (Model) =>
+  catchAsync(async (req, res, next) => {
+    const doc = await Model.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+      runValidators: true,
+    });
+
+    if (!doc) {
+      return next(new AppError('No document found with that ID', 404));
+    }
+
+    res.status(200).json({
+      status: 'success',
+      data: { doc },
+    });
+  });
+
+exports.createOne = (Model) =>
+  catchAsync(async (req, res, next) => {
+    const doc = await Model.create(req.body);
+
+    res.status(201).json({
+      status: 'success',
+      data: {
+        data: doc,
+      },
     });
   });

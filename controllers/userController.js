@@ -14,7 +14,7 @@ const filterObj = (obj, ...allowedFields) => {
 
 exports.getAllUsers = factory.getAll(User);
 exports.getUser =  factory.getOne(User);
-// Don not UPDATE password here
+// Do not UPDATE password here
 exports.updateUser = factory.updateOne(User)
 exports.deleteUser = factory.deleteOne(User);
 

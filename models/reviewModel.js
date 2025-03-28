@@ -35,7 +35,6 @@ const reviewSchema = new mongoose.Schema(
 );
 
 reviewSchema.pre(/^find/, function (next) {
-  console.log('reviewSchema');
   this.populate({
     path: 'user',
     select: 'name photo role',
@@ -60,14 +59,23 @@ reviewSchema.statics.calcAverageRatings = async function (tourId) {
 
   console.log(stats);
 
-  await Tour.findByIdAndUpdate(tourId, {
-    ratingsQuantity: stats[0].nRating,
-    ratingsAverage: stats[0].avgRating,
-  });
+  if (stats.length > 0) {
+    await Tour.findByIdAndUpdate(tourId, {
+      ratingsQuantity: stats[0].nRating,
+      ratingsAverage: stats[0].avgRating,
+    });
+  } else {
+    await Tour.findByIdAndUpdate(tourId, {
+      ratingsQuantity: 0,
+      ratingsAverage: 4.5,
+    });
+  }
 };
 
 reviewSchema.post('save', function () {
   // this point to current review
+  console.log('Instance Type:', this instanceof mongoose.Document);
+  console.log('what is this', this);
   this.constructor.calcAverageRatings(this.tour);
 });
 
@@ -75,28 +83,18 @@ reviewSchema.post('save', function () {
 // findByIdandDelete
 
 reviewSchema.pre(/^findOneAnd/, async function (next) {
-  const r = await this.model.findOne();
-
-
-
-  console.log(r);
-
-})
-
-
-reviewSchema.pre(/^findOneAnd/, async function (next) {
-  this.r = await this.model.findOne();
-
-
-
+  console.log('Middleware triggered');
+  console.log(this);
+  this.r = await this.model.findOne(this._conditions);
   console.log(this.r);
-  next()
-})
+  next();
+});
 
-reviewSchema.post(/^findOneAnd/, async function (next) {
-//  await this.model.findOne() doesn't work query has already executed
-  await this.r.constructor.calcAverageRatings(this.r.tour)
-})
+reviewSchema.post(/^findOneAnd/, async function () {
+  //  await this.model.findOne() doesn't work query has already executed
+
+  await this.r.constructor.calcAverageRatings(this.r.tour);
+});
 
 const Review = mongoose.model('Review', reviewSchema);
 module.exports = Review;

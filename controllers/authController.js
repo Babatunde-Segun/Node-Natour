@@ -3,7 +3,6 @@ const jwt = require('jsonwebtoken');
 const User = require('./../models/userModel');
 const AppError = require('./../utils/appError');
 const crypto = require('crypto');
-// const catchAsync = require('../utils/catchAsync');
 const catchAsync = require('./../utils/catchAsync');
 const sendEmail = require('./../utils/email');
 

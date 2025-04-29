@@ -14,6 +14,7 @@ const hpp = require('hpp');
 const tourRoutes = require('./../4-NATOURS/routes/tourRoutes');
 const userRoutes = require('./../4-NATOURS/routes/userRoutes');
 const reviewRoutes = require('./../4-NATOURS/routes/reviewRoutes');
+const viewRoutes = require('./../4-NATOURS/routes/viewRoutes');
 
 // middleware
 const app = express();
@@ -72,23 +73,7 @@ app.use((req, res, next) => {
 });
 
 // ROUTE
-app.get('/', (req, res) => {
-  res.status(200).render('base', {
-    tour: 'The forest Hiker',
-    user: 'Jonas'
-  });
-});
-
-app.get('/overview', (req, res) => {
-  res.status(200).render('overview', {
-    title: 'All Tours'
-  })
-})
-app.get('/tour', (req, res) => {
-  res.status(200).render('tour', {
-    title: 'The fores hiker'
-  })
-})
+app.use('/', viewRoutes);
 app.use('/api/v1/tours', tourRoutes);
 app.use('/api/v1/users', userRoutes);
 app.use('/api/v1/reviews', reviewRoutes);
